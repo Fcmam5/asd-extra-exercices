@@ -86,6 +86,14 @@ do{
 }
     while(ans!=0);
 	fprintf(htmlPage,"   </table>\n</td>\n</tr>\n</table>\n</body>\n</html>"); //Html page footer
+	
+	/**
+	 * Normalment l'affichage de Gnuplot se fait par :
+	 * system("gnuplot -p -e \"plot 'mylog1.txt'\"");
+	 * system("gnuplot -p -e \"plot 'mylog2.txt'\"");
+	 * Mais je sais pas ou est le probleme :(
+	 * */
+
 	system("firefox LikeABossLog.html "); //Open the table in Firefox
 return 0;
 }
