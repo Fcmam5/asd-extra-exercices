@@ -17,10 +17,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-int calcul1(int n){
-static int call1=0;
-call1++;
 
+static int call1=0; //How many time calcul1 is called 
+static int call2=0; //How many time calcul2 is called 
+
+int calcul1(int n){
+call1++;
     if(n==0) 
     return 1;
     else 
@@ -28,7 +30,8 @@ call1++;
     
 }
 
-int calcul2(int n){   
+int calcul2(int n){ 
+call2++;  
     if(n==0)
 		return 1;
     else return (calcul2(n-1)+calcul2(n-1));
@@ -36,7 +39,7 @@ int calcul2(int n){
 }
 
 
-main(){
+int main(void){
 double start;
 double end;
 double time_taken;
@@ -52,7 +55,7 @@ FILE *htmlPage;
 log1 = fopen("mylog1.txt","w");
 log2 = fopen("mylog2.txt","w");
 htmlPage = fopen("LikeABossLog.html","w");
-fprintf(htmlPage,"<!DOCTYPE html> \n<html> \n<head></head> \n<body> \n<table border=\"2\" width=\"100%\" bordercolor=\"green\">\n <table>\n    <tr>\n    \n<th>N value </th>\n    <th>Temps(s)</th>\n    </tr> ");
+fprintf(htmlPage,"<!DOCTYPE html> \n<html> \n<head></head> \n<body> \n<table border=\"2\" width=\"100%\" bordercolor=\"green\">\n <table>\n    <tr>\n    \n<th>N value </th>\n    <th>Temps(s)</th>\n <th>Appels</th> \n</tr> ");
 do{
 
     printf("Donner n: ");
@@ -63,9 +66,9 @@ do{
     cl1= calcul1(n);
     end = (double) clock();
     time_taken=(double)((double)(end-start))/CLOCKS_PER_SEC;
-    printf("\n1-Le resultat est= %d with %f second",cl1,time_taken);
-	fprintf(log1,"%d\t%f \n",n,time_taken);
-	fprintf(htmlPage,"<tr>\n<td><center>%d</center></td>\n<td>%f</td>\n</tr>",n,time_taken);
+    printf("\n1-Le resultat est= %d avec %d appels en %f second",cl1,call1,time_taken);
+	fprintf(log1,"%d\t%f\t%d \n",n,time_taken,call1);
+	fprintf(htmlPage,"<tr>\n<td><center>%d</center></td>\n<td>%f</td>\n<td><center>%d</center></td></tr>",n,time_taken,call1);
     //Calcul1 Ends </>
     
     //Calcul1 Starts :
@@ -73,8 +76,9 @@ do{
     cl2= calcul2(n);
     end = (double) clock();
     time_taken=(double)((double)(end-start))/CLOCKS_PER_SEC;
-    printf("\n2-Le resultat est= %d with %f second",cl2,time_taken); //Add raw to table
-	fprintf(log2,"%d\t%f \n",n,time_taken); 
+    printf("\n2-Le resultat est= %d avec %d appels en %f second",cl2,call2,time_taken); //Add raw to table
+	fprintf(log2,"%d\t%f\t%d \n",n,time_taken,call2);
+ 
 
     //Calcul1 Ends </>
     printf("\n\n\nType 0 to exit");
@@ -83,4 +87,5 @@ do{
     while(ans!=0);
 	fprintf(htmlPage,"   </table>\n</td>\n</tr>\n</table>\n</body>\n</html>"); //Html page footer
 	system("firefox LikeABossLog.html "); //Open the table in Firefox
+return 0;
 }
