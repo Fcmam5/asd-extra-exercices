@@ -1,3 +1,6 @@
+/**
+* Many errors, I'll check it later 
+**/
 #include<stdio.h>
 #include<stdlib.h>
 typedef struct indice{int i;int j};
