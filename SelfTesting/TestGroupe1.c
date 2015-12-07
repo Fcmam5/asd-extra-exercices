@@ -2,7 +2,7 @@
 #include<stdlib.h>
 typedef struct indice{int i;int j};
 
-void lire(int M[10][10],int n,int m){
+void lire(int **M,int n,int m){
     int i,j;
 
     for(j=0;j<m;j++){
@@ -10,9 +10,8 @@ void lire(int M[10][10],int n,int m){
         for(i=0;i<n;i++){
             printf("Donner T[%d][%d]",i,j);
             scanf("%d",&M[i][j]);
-
-    }
-}
+            }
+        }
 }
 
 struct indice indice_min(int **T,int n,int m,int the_i,int the_j){
