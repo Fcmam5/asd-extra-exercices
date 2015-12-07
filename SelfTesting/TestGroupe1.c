@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+typedef struct indice{int i;int j};
 
 void lire(int M[10][10],int n,int m){
     int i,j;
-    int T[n];
 
     for(j=0;j<m;j++){
         //Lecture du tableau
@@ -15,16 +15,25 @@ void lire(int M[10][10],int n,int m){
 }
 }
 
-int indice_min(int T[],int n,int xD){
-    int i;
-    int min = xD; //Inistially = 0;
+struct indice indice_min(int **T,int n,int m,int the_i,int the_j){
+    int i,j;
+    struct indice min;
+
+    //Inistially = 0,0;
+      min.i = the_i;
+      min.j = the_j;
+
     for(i=1;i<n;i++){
-        if(T[min]>T[i]){
-            min=i;
+        for(j=1;j<m;j++){
+            if(T[min.i][min.j]>T[i][j]){
+                min.i=i;
+                min.j=j;
+            }
+        }
         }
     return min;
     }
-}
+
 
 void Permuter(int *a,int *b){
     int tmp;
@@ -33,15 +42,22 @@ void Permuter(int *a,int *b){
     *b=tmp;
 }
 
-void tri(int T[],int n,int m){
-    int i;
-    int k;
+void tri(int **T,int n,int m){
+    int i,j;
+    struct indice the_min;
+    struct indice k;
         for(i=0;i<n-1;i++){
-            k = T[indice_min(T,n,i)];
-            if(k!=i)
-            Permuter(&T[k],&T[m]);
-        };
+            for(j=0;j<m-1;i++){
+            the_min=indice_min(T,n,m,i,j);
+            k.i = the_min.i;
+            k.j = the_min.j; //int **T,int n,int m,int the_i,int the_j
+            if((k.i!=i)&&(k.j!=j))
+            Permuter(&T[k.i][k.j],&T[i][j]);
+        }
+        }
 };
+
+
 void main(){
 int n,m;
 int M[n][m];
@@ -49,9 +65,5 @@ int i,j;
 
 lire(M,n,m);
 
-for(i=0;i<n;i++){
-    for(j=0;j<m;j++){
-        tri(M[i][j],n,m);
-    }
-}
+tri(M,n,m);
 }
